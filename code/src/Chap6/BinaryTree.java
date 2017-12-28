@@ -1,7 +1,8 @@
-package Chap6;
+package Chap4;
 
 import java.math.BigInteger;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 二叉树
@@ -154,7 +155,7 @@ public class BinaryTree<Item> {
             // 只要当前结点，就打印，同时入栈
             while (root != null) {
                 stack.push(root);
-                System.out.print(root.getData()+" ");
+                System.out.print(root.getData() + " ");
                 root = root.lchild;
             }
             // 上面while终止说明当前结点为空；返回到父结点并处理它的右子树。由于要执行pop操作，先判空
@@ -194,7 +195,7 @@ public class BinaryTree<Item> {
                 // 和前序遍历唯一不同的是，前序遍历是入栈时打印，中序遍历是出栈时返回到父结点才打印
                 // 和前序遍历一样，由于左孩子为空返回时已经弹出过父结点了，所以若是由于右孩子为空返回，会一次性返回多层
                 root = stack.pop();
-                System.out.print(root.getData()+" ");
+                System.out.print(root.getData() + " ");
                 root = root.rchild;
             }
         }
@@ -231,7 +232,7 @@ public class BinaryTree<Item> {
             while (!stack.isEmpty() && visitedState.peek() == 2) {
                 visitedState.pop();
                 // 这里不能root = stack.pop()然后在打印root，因为如果这样的话，最后一个元素弹出赋值给root，而这个root不为空，一直while循环不会跳出
-                System.out.print(stack.pop().getData()+" ");
+                System.out.print(stack.pop().getData() + " ");
             }
             if (!stack.isEmpty()) {
                 // 注意先取出来而不删除，等到访问状态为2才能删除
@@ -242,6 +243,25 @@ public class BinaryTree<Item> {
                 visitedState.push(2);
             }
         }
+    }
+
+    /**
+     * 层序遍历
+     */
+    public void levelOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            System.out.print(node.data+" ");
+            if (node.lchild != null) queue.offer(node.lchild);
+            if (node.rchild != null) queue.offer(node.rchild);
+        }
+
     }
 
     public void preOrder() {
@@ -317,6 +337,8 @@ public class BinaryTree<Item> {
         tree.postOrder();
         System.out.println("\n非递归后序遍历：");
         tree.postOrder2(tree.root());
+        System.out.println("\n层序遍历：");
+        tree.levelOrder(tree.root());
         System.out.println();
 
         System.out.println(root.getRchild().getLchild().getData() + "的父结点是" + tree.parentTo(root.getRchild().getLchild()).getData());
