@@ -159,12 +159,11 @@ public class BinaryTree<Item> {
                 root = root.lchild;
             }
             // 上面while终止说明当前结点为空；返回到父结点并处理它的右子树。由于要执行pop操作，先判空
-            if (!stack.isEmpty()) {
-                // 返回到父结点。由于左孩子为空返回时已经弹出过父结点了，所以若是由于右孩子为空返回，会一次性返回到多层
-                root = stack.pop();
-                // 开始右子树的大循环（第一个while)
-                root = root.rchild;
-            }
+
+            // 返回到父结点。由于左孩子为空返回时已经弹出过父结点了，所以若是由于右孩子为空返回，会一次性返回到多层
+            root = stack.pop();
+            // 开始右子树的大循环（第一个while)
+            root = root.rchild;
         }
     }
 
@@ -191,13 +190,12 @@ public class BinaryTree<Item> {
                 root = root.lchild;
             }
 
-            if (!stack.isEmpty()) {
-                // 和前序遍历唯一不同的是，前序遍历是入栈时打印，中序遍历是出栈时返回到父结点才打印
-                // 和前序遍历一样，由于左孩子为空返回时已经弹出过父结点了，所以若是由于右孩子为空返回，会一次性返回多层
-                root = stack.pop();
-                System.out.print(root.getData() + " ");
-                root = root.rchild;
-            }
+
+            // 和前序遍历唯一不同的是，前序遍历是入栈时打印，中序遍历是出栈时返回到父结点才打印
+            // 和前序遍历一样，由于左孩子为空返回时已经弹出过父结点了，所以若是由于右孩子为空返回，会一次性返回多层
+            root = stack.pop();
+            System.out.print(root.getData() + " ");
+            root = root.rchild;
         }
     }
 
