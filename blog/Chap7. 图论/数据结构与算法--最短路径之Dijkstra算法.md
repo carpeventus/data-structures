@@ -188,7 +188,7 @@ if (distTo[v] + edge.weight() < distTo[w]) {
 
 再用一幅图加深理解。
 
-![](http://obvjfxxhr.bkt.clouddn.com/dijkstra_dijk.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-4fd5a120e6f05e11.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 先看左边两个图：s到v的最短距离是3.1，s到w的最短距离是3.3。当在顶点v时，检查它的邻接点w，边v -> w的权值是1.3，从s到w的当然不能先从s到v，再从v到w，因为这俩加起来都4.4，比原来s到w的方案还要费劲，所以不会更改`distTo[w]`和`edgeTo[w]`。此时我们说v -> w这条边失效并忽略它。
 
@@ -316,9 +316,9 @@ if (distTo[v] + edge.weight() < distTo[w]) { }
 
 我们还是来跟着图走一遍。
 
-![](http://obvjfxxhr.bkt.clouddn.com/dijkstra_dij1.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-1261505d9aa1868a.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-![](http://obvjfxxhr.bkt.clouddn.com/dijkstra_dij2.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-fcfd49ce92ea9dba.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - 放松顶点0，2、4被加入Map，distTo[2]为0 -> 2的权值，distTo[4]为0 -> 4的权值。
 - 按权值放松顶点2，0 -> 2添加到树中。7被加入Map。distTo[7]为0 -> 2 -> 7的权值和。

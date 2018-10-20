@@ -234,11 +234,11 @@ private static int[] betterGetNext(String p) {
 
 当`k == -1`或者当前字符相同时多了一句判断`if (p.charAt(k + 1) == p.charAt(j + 1))`，它紧接着预判下一个字符是否也相等，如果相等，则满足条件`p[j] = p[k]`，想想为什么？
 
-1. 当前字符相同的情况下，下一个字符也相同。下图当前字符`p[k - 1] == p[j - 1]`，预判下一个字符`p[k] == p[j]`，且`next[j] = k`，满足条件，所以next[j]应该直接使用next[k]的值。
+1. 当前两个比较的字符相同的情况下，下一个字符也相同。下图当前比较的两个字符`p[k - 1] == p[j - 1]`，预判下一个字符`p[k] == p[j]`，且`next[j] = k`，满足条件，所以next[j]应该直接使用next[k]的值。
 
 ![](http://upload-images.jianshu.io/upload_images/2726327-9d48e22dd275a9a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-2. `k == -1`时，说明当前字符不相同，和上面一样假设当前字符在`j - 1`处，预判下一个字符`p[0] == p[k] == p[j]`，且`next[j] = k = 0`无疑(next[j + 1]才是1)，满足条件，所以next[j]直接使用next[0]的值即-1。
+2. `k == -1`时，再举个例子ABAB字符串，假设当前字符B(第一个B)在`j - 1`处，因为k==-1，所以预判下一个字符`p[0] == p[j]`，且`next[j] = k = 0`，满足条件，所以next[j]直接使用next[0]的值即-1。
 
 以上两种情况都满足`next[j] = k`，`p[k] = p[j]`。现在应该清楚增加的那句if判断是怎么工作的了吧。
 

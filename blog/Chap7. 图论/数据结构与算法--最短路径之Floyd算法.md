@@ -159,13 +159,13 @@ edge[v][w] = edge[k][w];
 
 `edge[v][w] = edge[k][w] = k`，这里其实就是用了初始值而已。
 
-![](http://obvjfxxhr.bkt.clouddn.com/floyd_IMG_20170924_125055.jpg)
+![](http://upload-images.jianshu.io/upload_images/2726327-a62690e56e021121.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 再看下图，是若干次更新v -> w时，此时v -> k和k -> w路径中可能有多个顶点，但是`edge[k][w]`存的始终是终点w的前一个顶点。当v -> w的最短路径更新后，k -> w中到w的前一个顶点就是v -> w路径中到w的前一个顶点。
 
 这就解释了`edge[v][w] = edge[k][w]`是怎么来的。
 
-![](http://obvjfxxhr.bkt.clouddn.com/floyd_IMG_20170924_125139.jpg)
+![](http://upload-images.jianshu.io/upload_images/2726327-603f2f1520879bd3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 最后得到的`edge[][]`如下：
 

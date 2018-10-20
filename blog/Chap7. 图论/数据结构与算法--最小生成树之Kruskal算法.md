@@ -1,6 +1,6 @@
 # 数据结构与算法--最小生成树之Kruskal算法
 
-上一节介绍了Prim算法，接着来看Kruskal算法。
+上一节介绍了[Prim算法](www.jianshu.com/p/3beb5685807a)，接着来看Kruskal算法。
 
 我们知道Prim算法是从某个顶点开始，从现有树周围的所有邻边中选出权值最小的那条加入到MST中。不妨换个思路，为何不一开始就将所有边中权值最小的边取出来搭建二叉树？这里说的最小权值是全局的最小权值，而Prim说的最小权值，是已经访问过的顶点的周围的边中的最小权值，这个范围当然比全部边要小。
 
@@ -64,6 +64,7 @@ public class UnionFind {
     }
 
 }
+
 ```
 
 至关重要的就是这个`id[]`标识数组了。**它的功能就是将处于同一连通分量的结点归并到同一个id中，也就是说如果某两个结点他们的id相同，那么他们就处于同一个连通分量中。**比如id[3] = id[4]= id[6] = 8，id[2] = id[4] = id[9] = 1，那么结点3，4，6处于同一个连通分量中，结点2、4、9处于另外一个连通分量中。
@@ -127,7 +128,7 @@ public class UnionFind {
 
 首先我们将`id[]`改成了`parentTo[]`，命名更易于理解。未优化的版本`id[]`存放的是各个结点所属的连通分量的标识，id表达的意义再合适不过。不过在优化的版本中，该数组是树形结构了，里面存的是某结点的父结点，用parentTo比较恰当，比如`parent[3] = 4`表达的意思是结点3的父结点是4。
 
-![](http://obvjfxxhr.bkt.clouddn.com/uf_uf.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-127002555e378581.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 上图的有两个连通分量，其中1和8作为根结点，可以看到根结点有`p = parent[p]`这一特点。它们都是初始值，从初始化代码中可以看出一开始`parent[i] = i`，所谓的根结点其实就是`parent[i]`从来没有被赋值过。
 
@@ -135,7 +136,7 @@ public class UnionFind {
 
 下图给出了分量合并的过程。
 
-![](http://obvjfxxhr.bkt.clouddn.com/uf_uf2.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-b4bf7d4486492d70.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## Kruskal算法实现
 

@@ -2,7 +2,7 @@
 
 上节学习了二叉查找树。算法的性能取决于树的形状，而树的形状取决于插入键的顺序。在最好的情况下，n个结点的树是完全平衡的，如下图“最好情况”所示，此时树的高度为`⌊log2 n⌋ + 1`，所以时间复杂度为O(lg n)当我们将键以升序或者降序插入的时候，得到的是一棵斜树，如下图中的“最坏情况”，树的高度为n，时间复杂度也变成了O(n)
 
-![](http://obvjfxxhr.bkt.clouddn.com/bst_10.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-c1de00dd883f8ece.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 在最坏情况下，二叉查找树的查找和插入效率很低。为了解决这个问题，引出了平衡二叉树(AVL)。
 
@@ -12,21 +12,21 @@
 
 为了反映每个结点的高度差，在二叉查找树的结点中应该增加一个新的域——被称为平衡因子(BF)，它的值是某个根结点的左子树深度减右子树深度的值。易知，**对于一棵平衡二叉树，每个结点的平衡因子只可能是-1、0、1三种可能。**
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_IMG_20171026_093109.jpg-s)
+![](http://upload-images.jianshu.io/upload_images/2726327-a28b514f7e97d856.jpg-s?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 上图中图1和图4是平衡树。图2根本不是二叉查找树，因为59大于58却是58的左子结点；图3中结点58的左子树高度为3而右子树的高度为0，不满足平衡二叉树的定义。不过将图3稍作改变，得到图4，它就是一棵平衡二叉树了。
 
 将每个结点的平衡因子控制在-1、0、1三个值是靠一种称为**旋转(Rolate)**的操作保证的，视情况分为**左旋转**和**右旋转**。
 
-![](http://obvjfxxhr.bkt.clouddn.com/avl_2.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-88b8abf5a8495446.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如图插入1的时候，发现根结点3的平衡因子变成了2（正数），对结点3进行右旋转修正成上图2的样子。
 
-![](http://obvjfxxhr.bkt.clouddn.com/avl_3.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-b8cfc25b715ab2c5.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 而当插入5时，发现结点3的平衡因子为-2（负数），所以需要对结点3进行左旋转修正成上图5的样子。
 
-![](http://obvjfxxhr.bkt.clouddn.com/avl_4.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-4f78508458585098.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 再看插入结点9的情况，结点7的平衡因子变成了-2，按理说应该对7进行左旋转（上图11），然而得到的确实图11虚线框中的子树，9位于10的右子结点这明显就是错的。究其原因，主要是因为**不平衡结点7和它的子树10的平衡因子符号相反（一正一负），这种情况出现在新结点插入在根结点的左孩子的右子树、或者根结点的右孩子的左子树。**后者情况下（即上图情况），需要先对根结点7的子结点10先作右旋转处理再对根结点7进行左旋处理。再回头看前两种插入情况，都是在根结点的左孩子的的左子树或者根结点的右孩子的右子树上插入的，根结点的平衡因子符号和它子结点的平衡因子符号相同。
 
@@ -68,19 +68,19 @@ public void rotateRight(Node h) {
 
 我们规定，一个2-结点要么拥有两个子结点，要么没有子结点；一个3-结点要么拥有三个子结点，要么没有子结点。这样的保证使得2-3树的所有叶子结点位于同一层，也就是说所有叶子结点到根结点的路径长度是一样的，达到了所谓的完美平衡。如下是一棵2-3树
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_1.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-a19b8b8245cae88c.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 2-3树的查找
 
 2-3树的查找和标准的二叉查找树如出一辙，只是多了在中链接的递归查找。具体来说：先将要查找的key与2-3树的根结点比较，若和根结点中任意一个键相等则查找命中；否则，若key小于根结点中的较小键，在根结点的左子树中递归查找；若key大于根结点中的较大者，在根结点的右子树中递归查找；若key在根结点两个键的之间，则在根结点的中子树中递归查找...下面分别展示了查找成功和失败的轨迹。
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_2.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-e53985009d4d18e8.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### 2-3树的插入
 
 插入操作，肯定是查找未命中时。如果未命中的查找结束于一个2-结点，直接插入到该结点中，使其变成3-结点就好了。可如果查找结束于一个3-结点该怎么办呢？2-3树中并不允许4-结点啊。
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_3.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-12cd7e44430bb118.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 有几种情况，我们一一来看。
 
@@ -88,13 +88,13 @@ public void rotateRight(Node h) {
 
 考虑一种最简单的情况，一棵2-3树中只有一个3-结点，此时插入一个新键。我们可以这样做：先让该键暂时存放于3-结点中，随即将3个键中排名中间的键向上移（因此树的高度增加了1），左边的键成为上移键的左子结点，右边的键成为上移键的右子树，最后这个临时的4-结点被分解成了3个2-结点。如下图
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_4.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-49d6bc38737e9b88.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 #### 向一个父结点是2-结点的3-结点中插入新键
 
 如果树比较复杂，其实也没关系，和上面的简单情况是同样的处理方法。
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_5.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-993255ec64bacda5.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
@@ -104,7 +104,7 @@ public void rotateRight(Node h) {
 
 一样的处理方法，无非就是再向上移，如下左图所示，在树的底部插入D，将排名中间的C上移和EJ合并成4-结点，继续将排名中间的E上移，和根结点M合并成为3-结点。
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_6.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-8dbfa6e9a0267e03.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如果到根结点还是4-结点呢，那就按照第一种情况处理——向一棵只含有3-结点的树中插入新键，只需将4-结点分解成3个2-结点即可，同时树的高度增加了1。
 
@@ -112,7 +112,7 @@ public void rotateRight(Node h) {
 
 4-结点的分解是局部的：除了相关的结点和链接之外，树的其他所有结点的状态都不会被修改。即每次变换，不是整棵树都变化了。下图能比较直观理解这种变换的局部性。
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_7.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-3da6cb42ea2db4ee.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 这些局部变换不会影响树的全局有序性和平衡性：任意叶子结点到根结点的路径长度都是相等的。
 
@@ -128,7 +128,7 @@ public void rotateRight(Node h) {
 
 先看最小键的删除。如果当前要被删除的结点是一个2-结点，那就想办法把它变成一个3-结点或者4-结点，然后直接删除即可。
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_10.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-d43cd964a9290ab4.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如上图中的5种变换：
 
@@ -140,7 +140,7 @@ public void rotateRight(Node h) {
 
 和删除最小键的处理方法类似。如下图
 
-![](http://obvjfxxhr.bkt.clouddn.com/23_11.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-50922b8f9d9a640f.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 也是当前结点的左右子结点都是2-结点就将这三个结点合并成4-结点，如图左边的combine siblings；当右子结点是2-结点，左子结点不是2-结点，那么从右子结点的兄弟结点中借一个最大结点到当前结点（它们的父结点），然后将当前结点中最大的键移动到右子结点，如图中borrow from siblings。
 
@@ -155,11 +155,11 @@ public void rotateRight(Node h) {
 
 我们将两个用红色链接相连的结点表示为一个3-结点。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_2.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-3441b0cc5f3c3a39.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如图，加粗的黑线（没找到彩图...）是被着色为红色的链接，a和b被红链接相连，因此a、b其实是一个3-结点。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_1.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-e85e3e042ed866ad.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 上图是个彩图了...同样的我们可以定义4-结点：某结点的左右链接都是红的，和这两条红链接相连的三个结点就是一个4-结点，这里只是提一下，左倾红黑树不会用到4-结点。下面我们如果提到“红黑树”那它指代就是“左倾红黑树”。
 
@@ -167,11 +167,11 @@ public void rotateRight(Node h) {
 
 看到一棵红黑树，如果将其直观地表示成2-3树呢？我们只需将所有左链接画平，并将与红链接相连的结点合并成一个3-结点即可。如下所示，加粗的黑色链接是红链接
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_3.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-bcea48df0043d358.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 之前一直说链接的红黑，**表达的是指向某个结点的链接的颜色。**
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_4.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-3b2dc56a450b3a02.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 比如上图中C、E之间的链接是红色的，这条链接指向C，因此这条链接的颜色是属于结点C的，我们也可以简单地说“（指向）C结点（的链接）是红色的”；那么对于结点J，指向它的链接颜色是黑的。叶子结点也有左右链接，虽然它们都是空，**约定（指向null的）空链接的颜色是黑色的。**如A的左子结点的链接颜色`A.left.color = BLACK`。哦对了，还有指向根结点的链接（虽然这么说很奇怪，因为事实上并没有链接指向根结点，为了保持结点性质的一致性，我们还是这么叫了），上面左倾红黑树的定义中有说到其颜色必须是黑色的，因为根结点的左孩子有可能是红链接，如果根结点也是红链接，就违反了定义的第二条——没有任何一个结点同时和两条红链接相连。总之上面提到了一些约定，这些都是为了我们实现时更加方便，所以在代码中要时刻保证这些约定。
 
@@ -220,17 +220,17 @@ public class LLRB<Key, Value> {
 
 旋转操作会改变红链接的指向，比如一条红色的右链接需要转换为红色的左链接，这个操作被称为**左旋转**，右旋转和左旋转是对称的。如下图所示。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_5.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-c05ba0f21b42dbb7.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_6.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-e50c7946b3fd6f8e.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 上面两张图，从红色右链接变到红色左链接，是**左旋转**。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_7.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-5af8d33b96c4f9d8.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_8.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-8f2d0253096329ab.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
@@ -295,7 +295,7 @@ public Value get(Key key) {
 
 这是最简单的情况了，按照2-3树插入的思路，直接使这个2-3结点变成3-结点。对应到红黑树中，如果新键小于父结点，只需将该键挂到父结点的左边且链接是红色；如果新键大于父结点，只需将该键挂到老键的右边且链接是红色，但这就违反了红黑树的特性（右链接不能是红色），因此上面的旋转操作就派上用场了，只需对其进行左旋转即可。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_9.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-469c9bd0bad80484.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 #### 向3-结点中插入一个新键
 
@@ -303,7 +303,7 @@ public Value get(Key key) {
 
 回忆2-3树中往3-结点中插入的情况，我们的做法是先将新键存在一个临时的4-结点中，然后将排名中间的键往上移，4-结点分解成了3个2-结点，同时树高增加1。这在红黑树中很好实现，4-结点也就是一个结点拥有两条红色链接，至于排名中间的键上移，只需将链接的颜色反转即可。如下是结点链接反色的示意图
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_11.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-62d1b27599f0db24.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 左图是一个4-结点，**通过将h的两个子结点的颜色变成BLACK、将h变成RED就达到了上移的目的，而且4-结点正确地被分解成了三个2-结点，h变红正好可以和上一层的2-结点合并成3-结点；或者和3-结点合并成4-结点后继续执行分解操作，如此这般一直到遇到一个2-结点为止。**这完全符合2-3树中的插入操作！反转结点链接颜色的代码非常简单，但是又相当重要，我们将看到，向3-结点中插入的种种情况最终都会转换成上面的情况。
 
@@ -321,11 +321,11 @@ private void flipColors(Node h) {
 - 新键小于3-结点中的两个键，那么该键会连接到3-结点较小键的的左链接且颜色为红色，此时出现了连续两条的红链接，是不允许的，通过**右旋转**变成了情况1，再调用`flipColors`
 - 新键位于3-结点的两个键之间，那么该键会链接到3-结点较小键的右链接上且颜色为红色，此时出现红色右链接，是不允许的，通过**左旋转**修正后变成了情况2，于是右旋转，变成情况1，最后调用`flipColors`.
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_10.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-9c538b092fbd5a9f.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如果是在树底部的某个3-结点插入新键，有可能包含以上全部三种情况！
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_14.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-4f3582bb45239b7b.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如果你回头看各种情况的插入操作，我们**总是用红链接将新结点和它的父结点相连**。这么做是为了符合2-3树中各种插入情况。而且因为三种情况里有些情况会进行其他情况的处理，在实现时一定要注意处理的顺序。比如情况3里包含了情况2和情况1的处理，情况2中包含了情况1的处理，那么在处理时应该先判断情况3，再判断情况2，最后判断情况1。
 
@@ -339,7 +339,7 @@ private void flipColors(Node h) {
 
 它们互相转换的关系如下图所示
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_15.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-5e0368e5ba19c1ec.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 对了还有一点，颜色反转有可能导致根结点的颜色也变成红色，但是我们**约定根结点总是黑色的**。所以每次put操作后，记得手动将`root.color`置为黑色。
 
@@ -395,27 +395,27 @@ private Node put(Node h, Key key, Value value) {
 
 如果要删除的是一个3-结点，那么直接删除。如果要删除的是一个2-结点，说明`h.left == BLACK && h.left.left ==BLACK`，逆向思考我们保证`h.left`或`h.left.left`任意一个是RED就说明要删除的结点是一个3-结点，之后再删除就简单了。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_a.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-08f201fe719366fb.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 如图当前结点B，`B.left = BLACK && B.left.left = BLACK`，此时只需flipColor将ABC合并成4-结点即可执行删除。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_c.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-bd474c41a38cff96.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 反转颜色后使得`h.left = RED`
 
 还有种更难的情况，在满足上述两个结点链接都是黑色的情况下，如果`h.right.left = RED`呢？如下，当前结点h = E
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_f.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-1867dc98f1fa1afb.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 按照2-3树删除方法，应该从A的兄弟结点借一个最小键到当前结点，再将当前结点中最小键移到A中合并成一个3-结点，再执行删除。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_d.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-72b27f58d5c10851.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 经过一系列的变换，从图中可看出先是`rotateRight(h.right)`，再`rotateLeft(h)`，然后`filpColors(h)`最终使得`h.left.left = RED`。
 
 其他情况如当前结点为D，`D.left.left = RED`，BC中可以直接删除B。或者如果递归到了C是当前结点，`C.left = RED`也能直接删除而无需其他操作。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbt_b.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-1b4a3375960c40ef.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 在递归自顶而下的过程中，我们对若干结点都进行了颜色反转及旋转操作，这些操作都可能影响数的有序性和平衡性，所以在返回的自下而上的过程中，要对树进行修正，修正的方法和put方法中的修正方法完全一样，抽取出来作为一个方法，如下
 
@@ -484,7 +484,7 @@ private Node deleteMin(Node h, Key key) {
 
 看个删除最小键的例子。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbtdelete_g.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-5c7845abdf69c3cb.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 #### 删除最大键
 
@@ -492,11 +492,11 @@ private Node deleteMin(Node h, Key key) {
 
 当前结点`h.right = BLACK && h.right.left = BLACK`，反转颜色。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbtdelete_j.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-e43b3a142c93825c.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 满足上述情况的同时如果`h.left.left = RED`，说明需要从兄弟结点中借一个键过来，为此还要进行下面的变换，最后`h.right.right`变成红色。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbtdelete_k.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-c842a42b696f3682.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 实现如下
 
@@ -542,11 +542,11 @@ private Node deleteMax(Node h, Key key) {
 
 来看两个删除最大键的例子，其中第一个例子删除后就已经平衡，无需修正；第二个例子中在自下而上的过程中有修正。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbtdelete_h.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-a90ae22fc1f22fe7.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 上面的例子无修正。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbtdelete_i.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-64cf9926f36947ba.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 上面的例子有修正。
 
@@ -613,7 +613,7 @@ private Node delete(Node h, Key key) {
 
 看一个被删除的键不在树底的例子，如下图删除D。用D的后继结点E替代了D的位置，之后删除了E，最后修正结点颜色。
 
-![](http://obvjfxxhr.bkt.clouddn.com/rbtdelete_aaa.PNG)
+![](http://upload-images.jianshu.io/upload_images/2726327-dbfb362716a19d03.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 代码中把“被删除键和当前键相同”、“比当前键大”这两种情况合并在一起讨论了，我尝试按照通常的思路，将这两种情况分开，即`else if (key.compareTo(h.key) == 0)`和`else > 0`；或者将`if (!isRed(h.right) && !isRed(h.right.left))`这个判断放到最后一个else里面，结果在进行了几次结点删除后都会出错。
 
@@ -621,11 +621,10 @@ private Node delete(Node h, Key key) {
 
 ### 其他API
 
-像min()/max()、select、rank、floor、ceiling和范围查找等相关方法，**不作任何修改**，直接套用标准二叉查找树的对应方法即可。
+像min()/max()、select、rank、floor、ceiling和范围查找等相关方法，**不作任何修改**，直接套用[标准二叉查找树](http://www.jianshu.com/p/50c09346cb56)的对应方法即可。
 
 ---
 
 by @sunhaiyu
 
 2017.10.21
-

@@ -230,7 +230,7 @@ public class NegativeDiCycle {
 
 该实现最为关键的就是理解：**当我们在v处发现某条v -> w的边，而恰好其w位于`onStack[]`中，就找到了一个环**。我们知道`onStack[]`表示的是s -> w -> x -> v的路径，现在v -> w 刚好补全w -> x -> v成为环！如下图所示
 
-![](http://obvjfxxhr.bkt.clouddn.com/IMG_20170925_204315.jpg)
+![](http://upload-images.jianshu.io/upload_images/2726327-8014c89c00bff9f1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 好，寻找到有向环后，再判断环内所有边的权值是不是负数就好了。该实现不仅能判断，还能找出到底是哪些边造成了环。关键是以下几行
 
@@ -372,7 +372,3 @@ public class SPFA {
 by @sunhaiyu
 
 2017.9.26
-
-
-
-
