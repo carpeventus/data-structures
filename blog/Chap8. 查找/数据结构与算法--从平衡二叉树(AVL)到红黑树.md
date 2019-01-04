@@ -371,7 +371,7 @@ private Node put(Node h, Key key, Value value) {
   	if (isRed(h.right) && !isRed(h.left)) {
     	h = rotateLeft(h);
   	}
-  	// 如果右子结点是红色的而左子结点是黑色的，进行左旋转
+  	// 如果左子结点是红色的且左子结点的左孩子是红色的，进行右旋转
   	if (isRed(h.left) && isRed(h.left.left)) {
     	h = rotateRight(h);
   	}
